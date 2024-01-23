@@ -26,8 +26,25 @@ function debounce(fn, time) {
   };
 }
 
+input.addEventListener(
+  "keyup",
+  debounce(function (e) {
+    getRepo(e.target.value).then((obj) => {
+      if (div.querySelector("ul") !== null) {
+        div.querySelector("ul").remove();
+      }
 
-input.addEventListener('keypress', debounce(function(e) {
-    console.log(getRepo(e.target.value));
-    // debounce(console.log(e.key), 500);
-}, 500));
+      let ul = document.createElement("ul");
+
+      for (let item of obj.items) {
+        let li = document.createElement("li");
+        li.append(item.name);
+        ul.append(li);
+      }
+
+      div.append(ul);
+    });
+  }, 500)
+);
+
+
